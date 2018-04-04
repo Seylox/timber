@@ -123,6 +123,11 @@ public final class Timber {
     TREE_OF_SOULS.log(priority, t);
   }
 
+  /** Track an event */
+  public static void track(Event event) {
+    TREE_OF_SOULS.track(event);
+  }
+
   /**
    * A view into Timber's planted trees as a tree itself. This can be used for injecting a logger
    * instance rather than using static methods or to facilitate testing.
@@ -363,6 +368,13 @@ public final class Timber {
       }
     }
 
+    @Override public void track(@NotNull Event event) {
+      Tree[] forest = forestAsArray;
+      for (Tree tree : forest) {
+        tree.track(event);
+      }
+    }
+
     @Override protected void log(int priority, String tag, @NotNull String message, Throwable t) {
       throw new AssertionError("Missing override for log method.");
     }
@@ -559,6 +571,13 @@ public final class Timber {
      */
     protected abstract void log(int priority, @Nullable String tag, @NotNull String message,
         @Nullable Throwable t);
+
+    /**
+     * Send an event to a tracking destination.
+     *
+     * @param event Event to be tracked
+     */
+    protected abstract void track(@NotNull Event event);
   }
 
   /** A {@link Tree Tree} for debug builds. Automatically infers the tag from the calling class. */
@@ -638,6 +657,11 @@ public final class Timber {
           i = end;
         } while (i < newline);
       }
+    }
+
+    @Override
+    protected void track(@NotNull Event event) {
+      // We do not by default write events to the debug log. Can be handled by planting a custom debug tracking tree
     }
   }
 }
