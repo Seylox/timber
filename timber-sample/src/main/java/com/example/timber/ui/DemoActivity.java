@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.example.timber.DummyEvent;
 import com.example.timber.R;
 import timber.log.Timber;
 
@@ -25,5 +26,6 @@ public class DemoActivity extends Activity {
   public void greetingClicked(Button button) {
     Timber.i("A button with ID %s was clicked to say '%s'.", button.getId(), button.getText());
     Toast.makeText(this, "Check logcat for a greeting!", LENGTH_SHORT).show();
+    Timber.track(new DummyEvent(button.getText().toString()));
   }
 }

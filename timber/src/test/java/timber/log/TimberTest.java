@@ -354,6 +354,27 @@ public class TimberTest {
     assertLog().hasNoMoreMessages();
   }
 
+  @Test public void eventTracked() {
+
+    final String testEventName = "This is the test event name";
+
+    class TestEvent implements Event {
+
+      @NotNull
+      @Override
+      public String getEventName() {
+        return testEventName;
+      }
+    }
+
+    Timber.plant(new Timber.DebugTree());
+    Timber.track(new TestEvent());
+
+    assertLog()
+        .hasVerboseMessage("TimberTest", testEventName)
+        .hasNoMoreMessages();
+  }
+
   @Test public void logMessageCallback() {
     final List<String> logs = new ArrayList<>();
     Timber.plant(new Timber.DebugTree() {
