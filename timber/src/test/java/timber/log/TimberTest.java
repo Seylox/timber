@@ -365,13 +365,19 @@ public class TimberTest {
       public String getEventName() {
         return testEventName;
       }
+
+      @Override
+      public String toString() {
+        return String.format("'event:%s'", testEventName);
+      }
     }
 
+    TestEvent testEvent = new TestEvent();
     Timber.plant(new Timber.DebugTree());
-    Timber.track(new TestEvent());
+    Timber.track(testEvent);
 
     assertLog()
-        .hasVerboseMessage("TimberTest", testEventName)
+        .hasVerboseMessage("TimberTest", "Event tracked: " + testEvent.toString())
         .hasNoMoreMessages();
   }
 

@@ -661,7 +661,8 @@ public final class Timber {
 
     @Override
     protected void track(@NotNull Event event) {
-      log(Log.VERBOSE, getTagForTrack(), event.toString(), null);
+      String message = String.format("Event tracked: %s", event);
+      log(Log.VERBOSE, getTagForTrack(), message, null);
     }
 
     final String getTagForTrack() {
