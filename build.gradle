@@ -4,19 +4,31 @@ buildscript {
     ext.kotlin_version = '1.2.31'
     ext.versions = [
       'minSdk': 9,
-      'compileSdk': 27,
+      'compileSdk': 28,
 
-      'kotlin': '1.2.31',
+      'kotlin': '1.2.51',
 
-      'androidPlugin': '3.1.0',
-      'androidTools': '26.1.0',
+      'androidPlugin': '3.1.3',
+      'androidTools': '26.1.3',
 
       'butterknife': '8.8.1',
   ]
 
   ext.deps = [
       androidPlugin: "com.android.tools.build:gradle:${versions.androidPlugin}",
-      kotlinPlugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+      'kotlin': [
+          'stdlib': [
+              'common': "org.jetbrains.kotlin:kotlin-stdlib-common:${versions.kotlin}",
+              'jdk': "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}",
+              'js': "org.jetbrains.kotlin:kotlin-stdlib-js:${versions.kotlin}",
+          ],
+          'test': [
+              'common': "org.jetbrains.kotlin:kotlin-test-common:${versions.kotlin}",
+              'annotations': "org.jetbrains.kotlin:kotlin-test-annotations-common:${versions.kotlin}",
+              'jdk': "org.jetbrains.kotlin:kotlin-test-junit:${versions.kotlin}",
+              'js': "org.jetbrains.kotlin:kotlin-test-js:${versions.kotlin}",
+          ],
+      ],
       'butterknife': [
           'runtime': "com.jakewharton:butterknife:${versions.butterknife}",
           'compiler': "com.jakewharton:butterknife-compiler:${versions.butterknife}"
@@ -30,20 +42,21 @@ buildscript {
       annotations: 'org.jetbrains:annotations:16.0.1',
 
       junit: 'junit:junit:4.12',
-      truth: 'com.google.truth:truth:0.39',
+      truth: 'com.google.truth:truth:0.41',
       robolectric: 'org.robolectric:robolectric:3.8',
   ]
 
   repositories {
     jcenter()
     google()
+    gradlePluginPortal()
   }
 
   dependencies {
     classpath deps.androidPlugin
-    classpath deps.kotlinPlugin
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
-      classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+    classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
   }
 }
 
